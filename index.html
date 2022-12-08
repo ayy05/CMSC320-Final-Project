@@ -20512,7 +20512,7 @@ degrees of freedom: 8
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[94]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This is where I&#39;d put my results - WHEN I HAVE ANY</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This is where I&#39;d put my results</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;control&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;pwd&#39;</span><span class="p">,</span> <span class="s1">&#39;swipe&#39;</span><span class="p">],</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;control&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;pwd&#39;</span><span class="p">,</span> <span class="s1">&#39;swipe&#39;</span><span class="p">])</span>
 <span class="n">res</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -20945,7 +20945,7 @@ degrees of freedom: 8
 <p>So, let's analyze what results we can get from this.</p>
 <ol>
 <li>As expected, <code>it</code> and <code>swipe</code> are both Very different from all the other containers, to the point that the p value simply outputs as 0. The only experiments they're close to (with still a ridiculously small p-value) is each other.</li>
-<li>The rest of the experiments are also very different form one another, with p-values in the range of $$e^{-30}$$ (plus and minus some orders of magnitude.</li>
+<li>The rest of the experiments are also very different form one another, with p-values in the range of $e^{-30}$ (plus and minus some orders of magnitude).</li>
 <li>No pair of experiments have a p-value higher than 0.05, which means we can conclude that all experiments are statistically significnatly different from one another.</li>
 </ol>
 <p>So therefore, we can (technically) say that there is reason to suspect that web content/presence of a web server impacts the commands run on an SSH server.</p>
