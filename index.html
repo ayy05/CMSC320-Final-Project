@@ -14539,6 +14539,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
   display: none;
 }
 
+@page {
+    margin: 0.5in; /* Margin for each printed piece of paper */
+}
+
 @media print {
   .jp-Cell-inputWrapper,
   .jp-Cell-outputWrapper {
@@ -14605,7 +14609,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="What-is-this?">What is this?<a class="anchor-link" href="#What-is-this?">&#182;</a></h2><p>In HACS200, a class required for the ACES honors program, students are tasked with completign a semester long research project that analyzes attacker behavior in SSH. Details of the projects are left up to the students, along with the experimental design and analysis.</p>
+<h2 id="What-is-this?">What is this?<a class="anchor-link" href="#What-is-this?">&#182;</a></h2><p>In HACS200, a class required for the ACES honors program, students are tasked with completing a semester long research project that analyzes attacker behavior in SSH. Details of the projects are left up to the students, along with the experimental design and analysis.</p>
 <p>We are in this class and in the same group. Given that we needed to perform data science on the data that we collected, we asked Max if we could submit that analysis for the final project. He greenlit this idea, especially given the amount of labor that went into doing all of this analysis in the first place.</p>
 
 </div>
@@ -14618,8 +14622,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Research-Background">Research Background<a class="anchor-link" href="#Research-Background">&#182;</a></h2><p>While some cyber attacks can be highly sophisticated endevours, many of them are &quot;blanket attacks.&quot; In these types of attacks, cyber attackers often have bots that scan IP's for open services that they can exploit. Those bots, then, can do actions such as getting information about systems, spamming open SSH servers, sending malicious request to web servers, and more. Sometimes, after a bot flags a machine as interesting (or somehow otherwise giving this information to the attacker), a human attacker will investigate a machine themselves. These scripts can be used by both sophisticated attackers, or by unknowledgeable &quot;script kiddies,&quot; as they are called in the cybersecurity community (no, seriously, look it up).</p>
-<p>Many studies that examine blanket/less sophisticated attacker behavior only look at one axis of attack: only looking at attacker actions on SSH, only on HTTP, only on SQL, etc. However, we are also very aware that the scripts these attackers use collect lots of information about the system, and not just on the axis that the attackers study. Moreover, if a human attacker decides to comprimise the system, they're likely aware of other services on the system and their behavior may change depending on the environment. Despite this, there have been very few studies that examine <em>connections</em> between attacker behavior and other services. For example, if a machine hosts a website that seems to be of high sensitivity, are attacker going to be more aggressive when they compromise through SSH?</p>
+<h2 id="Research-Background">Research Background<a class="anchor-link" href="#Research-Background">&#182;</a></h2><p>While some cyberattacks can be highly sophisticated endeavors, many of them are &quot;blanket attacks.&quot; In these types of attacks, cyber attackers often have bots that scan IP's for open services that they can exploit. Those bots, then, can do actions such as getting information about systems, spamming open SSH servers, sending malicious request to web servers, and more. Sometimes, after a bot flags a machine as interesting (or somehow otherwise giving this information to the attacker), a human attacker will investigate a machine themselves. These scripts can be used by both sophisticated attackers, or by unknowledgeable &quot;script kiddies,&quot; as they are called in the cybersecurity community (no, seriously, look it up).</p>
+<p>Many studies that examine blanket/less sophisticated attacker behavior only look at one axis of attack: only looking at attacker actions on SSH, only on HTTP, only on SQL, etc. However, we are also very aware that the scripts these attackers use collect lots of information about the system, and not just on the axis that the attackers study. Moreover, if a human attacker decides to compromise the system, they're likely aware of other services on the system and their behavior may change depending on the environment. Despite this, there have been very few studies that examine <em>connections</em> between attacker behavior and other services. For example, if a machine hosts a website that seems to be of high sensitivity, are attacker going to be more aggressive when they compromise through SSH?</p>
 <p>And that's exactly what our group set out to do! We wanted to examine the relationship between attacker behavior on SSH and the web page content that sits on the same machine.</p>
 
 </div>
@@ -14635,7 +14639,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h2 id="Experiment-Setup">Experiment Setup<a class="anchor-link" href="#Experiment-Setup">&#182;</a></h2><p>A <strong>honeypot</strong> is a system that is created with the express intent of either trapping attackers or luring in attackers. They are used in industry to slow down attackers or create a first line of defense and are used in academia for the purposes of studying attacker behavior. We used a honeypot in the academia fashion.</p>
 <p>Our honeypots were emulating Linux systems that had a website hosted on port 80 using Apache connected to some external IP. However, in reality, each system was an LXC container on a main host machine. The host had all external IP's hosted on it, and traffic to those IP's would be redirected into the container, making it seem from the outside like each IP was connected to an independent system.</p>
 <p>On a normal, independent system, while it's possible to log SSH activity, a smart attacker could find evidence of that logging and delete it, losing valuable data. So, to log SSH data, we created <strong>man-in-the-middle</strong> servers (hereafter known as MITM) on the host that capture SSH activity. In essence, an MITM is a spy that takes the SSH data attackers send to the honeypot, records it, then sends it into the honeypot for execution. This MITM was provided to us by the ACES program (although we added some modifications and cool features of our own throughout the semester). And in order to allow as many enters into SSH as possible, we turned on auto-access (meaning any user-password combo would work to compromise the system).</p>
-<p>As part of the resources, we were given eleven of UMD's external IPs to use in our experiment. Three of them were attached to control honeypots (meaning they didn't have any websites on them), and the remaining eight were attached to web server honeypots. There were four website designs (two duplications each): a blank page with literally nothing on it, an informational page, a password change page, and an IOT control page (in our case, swipe card access into buildings). The ones with content were associated with a fictuous Department of Internet Security at UMD (and were gracefully copied off of actual DIT websites).</p>
+<p>As part of the resources, we were given eleven of UMD's external IPs to use in our experiment. Three of them were attached to control honeypots (meaning they didn't have any websites on them), and the remaining eight were attached to web server honeypots. There were four website designs (two duplications each): a blank page with literally nothing on it, an informational page, a password change page, and an IOT control page (in our case, swipe card access into buildings). The ones with content were associated with a fictious Department of Internet Security at UMD (and were gracefully copied off of actual DIT websites).</p>
 <p>Our honeypots were up for about 6 weeks.</p>
 <p>By the time this notebook reaches your hands, dear grader/instructor/future student/someone else (why are you here?), the experiment will be shut down. However, during the time period of the experiment, you could have gone and taken a look at these websites yourself (and entered the honeypots if you so had desired) from your own browser. However, we didn't have a domain name (like google.com), so you would have had to actually type in the IP in number form. This also ensured that normal users wouldn't find our webpages and get confused by the content on them — only internet crawlers would hit upon them.</p>
 <p>If you're interested and want to learn more about the way that our project is set up, you can see our paper here: <strong>paper link maybe</strong></p>
@@ -14661,7 +14665,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -14688,7 +14692,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># A quick function to exportCSV so that we don&#39;t have to write these two</span>
@@ -14708,7 +14712,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This a function that goes through a dataframe with IP&#39;s in it and adds</span>
@@ -14734,7 +14738,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Importing-and-Basic-Pre-Processing-of-Data">Importing and Basic Pre-Processing of Data<a class="anchor-link" href="#Importing-and-Basic-Pre-Processing-of-Data">&#182;</a></h1><p>Time to get our data in! The data will be <strong>in the github? I think?</strong> and we will import it in nicely. However, since we have some tricky manipulations coming up, we're not going to be just having everyhing in pandas. Let's create a database!</p>
+<h1 id="Importing-and-Basic-Pre-Processing-of-Data">Importing and Basic Pre-Processing of Data<a class="anchor-link" href="#Importing-and-Basic-Pre-Processing-of-Data">&#182;</a></h1><p>Time to get our data in! The data will be <strong>in the github? I think?</strong> and we will import it in nicely. However, since we have some tricky manipulations coming up, we're not going to be just having everything in pandas. Let's create a database!</p>
 
 </div>
 </div>
@@ -14744,7 +14748,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;mainDatabase.db&#39;</span><span class="p">):</span>
@@ -14761,7 +14765,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;mainDatabase.db&#39;</span><span class="p">)</span>
@@ -14792,8 +14796,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </ol>
 <p>The honeypot they can connect to is one of the following: <code>control-t-x_running</code>, <code>blank-t-x_running</code>, <code>it-t-x_running</code>, <code>pwd-t-x_running</code>, <code>swipe-t-x_running</code>. <code>x</code> refers to the duplication of the experiment (1st duplication, 2nd duplication, etc). If <code>x</code> is 1, then the <code>-x</code> is dropped. Slightly messy convention, sure, but it evolved into it, as conventions usually do.</p>
 <p>Now, what is that last column? This refers to different modes of interacting with an SSH server. The typical way you may be familiar with SSH-ing into a system (say, Grace), you open up a shell that you can interact with and run commands by typing. This is called interactive mode. However, you can also send commands through an SSH connection for the remote system to execute without actually opening up a shell for you to interact with. This is called noninteractive mode. Most SSH attacks (like 99% of them) are noninteractive (meaning they don't open up a shell). One reason for this is that coding a bot that can engage with interactive sessions is quite tricky (although not impossible), and since most attackers are script kiddies, that just isn't in their priority list. And if noninteractive sessions do the trick, why not just use them all the time?</p>
-<p>This column has a &quot;n&quot; if the session is interactive, and &quot;y&quot; if the session is noninteractive. There is a bug within the MITM code that if an attacker runs no commands, the session is automaticaly flagged &quot;interactive,&quot; but this can happen if an attacker uses a program like Hydra to test SSH connections without actually executing any commands. We deal with this bug later.</p>
-<p>Note: we assume that every single session in this dataset is an attack. As far as we know, there is no valid reason to try to enter an SSH server that you were not given permission for/don't know about in advance. Perhaps some poor soul mistyped their IP when trying a valid SSH and ended up here, but we deemed this so unlikely that we discard that possiblity.</p>
+<p>This column has a &quot;n&quot; if the session is interactive, and &quot;y&quot; if the session is noninteractive. There is a bug within the MITM code that if an attacker runs no commands, the session is automatically flagged &quot;interactive,&quot; but this can happen if an attacker uses a program like Hydra to test SSH connections without actually executing any commands. We deal with this bug later.</p>
+<p>Note: we assume that every single session in this dataset is an attack. As far as we know, there is no valid reason to try to enter an SSH server that you were not given permission for/don't know about in advance. Perhaps some poor soul mistyped their IP when trying a valid SSH and ended up here, but we deemed this so unlikely that we discard that posiblity.</p>
 <p>Let's get the data in!</p>
 
 </div>
@@ -14804,7 +14808,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;mitm_out.txt&#39;</span><span class="p">,</span> <span class="n">lineterminator</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
@@ -14821,7 +14825,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -14840,7 +14844,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -15080,7 +15084,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cmds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;cmds_out.txt&#39;</span><span class="p">,</span> <span class="n">lineterminator</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="p">)</span>
@@ -15097,7 +15101,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cmds</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -15116,7 +15120,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -15369,7 +15373,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">apache</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;apache_out.txt&#39;</span><span class="p">,</span> <span class="n">lineterminator</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
@@ -15386,7 +15390,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">apache</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -15405,7 +15409,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -15596,7 +15600,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mitm</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;str&quot;</span><span class="p">)</span>
@@ -15627,7 +15631,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mitm</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^ +| +$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -15663,7 +15667,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">mitm</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
@@ -15693,7 +15697,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;mitm_out&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -15735,7 +15739,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number SSH sessions:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitm</span><span class="p">))</span>
@@ -15789,7 +15793,7 @@ Number Apache events:	 131602
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;containerType&quot;</span><span class="p">)[</span><span class="s2">&quot;containerType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -15808,7 +15812,7 @@ Number Apache events:	 131602
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -15853,7 +15857,7 @@ Name: containerType, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;containerType&quot;</span><span class="p">)[</span><span class="s2">&quot;containerType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
@@ -15872,7 +15876,7 @@ Name: containerType, dtype: int64</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -15923,7 +15927,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">apache</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;apacheContainerType&quot;</span><span class="p">)[</span><span class="s2">&quot;apacheContainerType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
@@ -15942,7 +15946,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -15992,7 +15996,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">apache</span><span class="p">[</span><span class="n">apache</span><span class="p">[</span><span class="s2">&quot;apacheIsGet&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;apacheContainerType&quot;</span><span class="p">)[</span><span class="s2">&quot;apacheContainerType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
@@ -16011,7 +16015,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16060,7 +16064,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">apache</span><span class="p">[</span><span class="n">apache</span><span class="p">[</span><span class="s2">&quot;apacheIsGet&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;n&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;apacheContainerType&quot;</span><span class="p">)[</span><span class="s2">&quot;apacheContainerType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
@@ -16079,7 +16083,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16128,7 +16132,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cmds</span><span class="p">[</span><span class="s2">&quot;command&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
@@ -16147,7 +16151,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16185,7 +16189,7 @@ Name: command, Length: 222, dtype: int64</pre>
 <ul>
 <li><code>uname -a</code> is a command that outputs some basic information about a Linux system. For example, it gives it's distribution, how long it's been operating, the name of the machine, etc.</li>
 <li><code>nc</code> is a networking utility that, when used like <code>nc localhost 1234</code> listens on port 1234 on the localhost. In essence, this attack tries to establish a connection that they can send information of commands to without SSH-ing again.</li>
-<li>All of the <code>ifconfig</code> commands are trying to change something about the <code>ifconfig</code> file, which is a file that sepcifies the network/IP configuration. Why do all those have the same number of counts? Because those commands are usually run like <code>echo &gt; /dev/shm/ifconfig &amp;&amp; cat &gt; /dev/shm/ifconfig &amp;&amp; chmod 777 /dev/shm/ifconfig</code>.</li>
+<li>All of the <code>ifconfig</code> commands are trying to change something about the <code>ifconfig</code> file, which is a file that specifies the network/IP configuration. Why do all those have the same number of counts? Because those commands are usually run like <code>echo &gt; /dev/shm/ifconfig &amp;&amp; cat &gt; /dev/shm/ifconfig &amp;&amp; chmod 777 /dev/shm/ifconfig</code>.</li>
 </ul>
 <p>An interesting question is what the distribution of number of commands is. Let's do a histogram! It'll have to have a log scale, though.</p>
 
@@ -16197,7 +16201,7 @@ Name: command, Length: 222, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">cmds</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">],</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -16217,7 +16221,7 @@ Name: command, Length: 222, dtype: int64</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16280,7 +16284,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
@@ -16299,7 +16303,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16343,7 +16347,7 @@ Name: IP, Length: 3486, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mitm</span><span class="p">[</span><span class="s1">&#39;IP&#39;</span><span class="p">],</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -16362,7 +16366,7 @@ Name: IP, Length: 3486, dtype: int64</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16415,7 +16419,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;IP&quot;</span><span class="p">])[</span><span class="s2">&quot;containerType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
@@ -16434,7 +16438,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16466,7 +16470,7 @@ Name: containerType, Length: 3486, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;IP&quot;</span><span class="p">])[</span><span class="s2">&quot;containerType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
@@ -16485,7 +16489,7 @@ Name: containerType, Length: 3486, dtype: int64</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16535,7 +16539,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mitm</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;containerType&quot;</span><span class="p">)[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
@@ -16554,7 +16558,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16593,7 +16597,7 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>So, we can see that while most containers had a pretty high variety of unique IP's attacking them, the two most attacked containers actually had a lower variety (we don't think about <code>control-t-2</code> and <code>control-t-3</code>, since they were up for half the time as the rest). This is probably because if one attacker does a relentless spam for several days on a container, they would be the <em>only</em> attacker on that honeypot for those few days (given that we made sure only attacker could be allowed in at at time to remove outside influences on behavior).</p>
+<p>So, we can see that while most containers had a pretty high variety of unique IP's attacking them, the two most attacked containers actually had a lower variety (we don't think about <code>control-t-2</code> and <code>control-t-3</code>, since they were up for half the time as the rest). This is probably because if one attacker does a relentless spam for several days on a container, they would be the <em>only</em> attacker on that honeypot for those few days (given that we made sure only attacker could be allowed in at time to remove outside influences on behavior).</p>
 <p>Now, this is all very interesting, but it gives us absolutely no insight as to our actual research question — how web page content affects SSH behavior. So, it's time to do some proper digging.</p>
 
 </div>
@@ -16637,7 +16641,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">apacheMatchQuery</span> <span class="o">=</span> <span class="s2">&quot;SELECT (mitm_out.containerType), (mitm_out.IP), (mitm_out.Time), (mitm_out.attackerUser), (mitm_out.attackerPwd), (mitm_out.numCMDS), (mitm_out.noninteractive), </span><span class="se">\</span>
@@ -16670,7 +16674,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">apacheMatch</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">apacheMatchQuery</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
@@ -16690,7 +16694,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -16991,7 +16995,7 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Ah, but this doesn't have any of the control sessions. Let's select them, then create some dummy columns for the non applicable apache info. This is for appending the two together later.</p>
+<p>Ah, but this doesn't have any of the control sessions. Let's select them, then create some dummy columns for the non-applicable apache info. This is for appending the two together later.</p>
 
 </div>
 </div>
@@ -17001,7 +17005,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">query_control</span> <span class="o">=</span> <span class="s2">&quot;SELECT (mitm_out.containerType), (mitm_out.IP), (mitm_out.Time), (mitm_out.attackerUser), (mitm_out.attackerPwd), (mitm_out.numCMDS), (mitm_out.noninteractive) </span><span class="se">\</span>
@@ -17019,7 +17023,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">control</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query_control</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
@@ -17035,7 +17039,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apacheContainerType&#39;</span><span class="p">,</span> <span class="s1">&#39;apacheIP&#39;</span><span class="p">,</span> <span class="s1">&#39;apacheTime&#39;</span><span class="p">,</span> <span class="s1">&#39;apacheType&#39;</span><span class="p">,</span> <span class="s1">&#39;apacheUserAgent&#39;</span><span class="p">]</span>
@@ -17057,7 +17061,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -17368,7 +17372,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">usable</span> <span class="o">=</span> <span class="n">apacheMatch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
@@ -17388,7 +17392,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -17711,7 +17715,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filteredCMDS</span> <span class="o">=</span> <span class="n">cmds</span><span class="p">[(</span><span class="n">cmds</span><span class="p">[</span><span class="s1">&#39;IP&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">usable</span><span class="p">[</span><span class="s1">&#39;IP&#39;</span><span class="p">]))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">cmds</span><span class="p">[</span><span class="s1">&#39;containerType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">usable</span><span class="p">[</span><span class="s1">&#39;containerType&#39;</span><span class="p">]))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">cmds</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">usable</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">]))]</span>
@@ -17731,7 +17735,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -18035,7 +18039,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">usable</span>
@@ -18054,7 +18058,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[37]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -18365,7 +18369,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filteredCMDS</span>
@@ -18384,7 +18388,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[38]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -18660,7 +18664,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number Valid SSH sessions:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">usable</span><span class="p">))</span>
@@ -18701,7 +18705,7 @@ Number Valid Commands:		 293547
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>So, we went from 532194 → 309103 valid SSH sessions and went from 466637 → 240159 valid commands. What percentages are those?</p>
+<p>So, we went from 589,585 → 364,126 valid SSH sessions and went from 525,267 → 293,547 valid commands. What percentages are those?</p>
 
 </div>
 </div>
@@ -18711,11 +18715,11 @@ Number Valid Commands:		 293547
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[40]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Session ratio:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mf">309103.0</span><span class="o">/</span><span class="mf">532194.0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Command ratio:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mf">240159.0</span><span class="o">/</span><span class="mf">466637.0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Session ratio:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mf">364126.0</span><span class="o">/</span><span class="mf">589585.0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Command ratio:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mf">293547.0</span><span class="o">/</span><span class="mf">525267.0</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18735,8 +18739,8 @@ Number Valid Commands:		 293547
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Session ratio:	 0.5808088779655539
-Command ratio:	 0.5146591461885791
+<pre>Session ratio:	 0.6175971234003579
+Command ratio:	 0.5588529262260907
 </pre>
 </div>
 </div>
@@ -18752,7 +18756,7 @@ Command ratio:	 0.5146591461885791
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We about halfed our data. So, this means that about approximately half of SSH attacks are preceded by a pull of webpage content from the same machine (not just scan for the presence of a webserver).</p>
+<p>We about halved our data. So, this means that about approximately half of SSH attacks are preceded by a pull of webpage content from the same machine (not just scan for the presence of a webserver).</p>
 <p>However, this isn't quite accurate: we don't know if the control attacks tried to do a pull or saw if the server is there or not. So, let's look at only experiments that had a webserver.</p>
 
 </div>
@@ -18763,7 +18767,7 @@ Command ratio:	 0.5146591461885791
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[41]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">un_ctr_sess</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitm</span><span class="p">[</span><span class="o">~</span><span class="n">mitm</span><span class="p">[</span><span class="s1">&#39;containerType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;control-t_running&quot;</span><span class="p">,</span> <span class="s2">&quot;control-t-2_running&quot;</span><span class="p">,</span> <span class="s2">&quot;control-t-3_running&quot;</span><span class="p">])])</span>
@@ -18782,7 +18786,7 @@ Command ratio:	 0.5146591461885791
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Webserver session ratio:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">fi_ctr_sess</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">un_ctr_sess</span><span class="p">))</span>
@@ -18834,7 +18838,7 @@ Webserver command ratio:	 0.4746507420456246
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[43]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IP session ratio:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">usable</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">mitm</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()))</span>
@@ -18873,7 +18877,7 @@ IP command ratio:	 0.28033343624575485
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[44]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">un_ip_sess</span> <span class="o">=</span> <span class="n">mitm</span><span class="p">[</span><span class="o">~</span><span class="n">mitm</span><span class="p">[</span><span class="s1">&#39;containerType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;control-t_running&quot;</span><span class="p">,</span> <span class="s2">&quot;control-t-2_running&quot;</span><span class="p">,</span> <span class="s2">&quot;control-t-3_running&quot;</span><span class="p">])][</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
@@ -18892,7 +18896,7 @@ IP command ratio:	 0.28033343624575485
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[45]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IP session w/o control ratio:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">fi_ip_sess</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">un_ip_sess</span><span class="p">))</span>
@@ -18934,7 +18938,7 @@ IP command w/o control ratio:	 0.06527977044476327
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>And with that, we can say that a bit less than 1/10 of attackers on SSH do a pull of website content on the same machine.</p>
-<p>This was honestly completely outside of our expectations. We had expected both proportions to be significantly lower when we first set out. Our best guess as to why our expectations of attacker behavior in this case was different from reality is that, as mentioned in the research background, most research only focuses on one axis of attack at a time. So, perhaps, we erronousy assumed that attackers only <em>do</em> one axis of attack, and that multiple axises are rarer. That turns out to not be the case! Neat!</p>
+<p>This was honestly completely outside of our expectations. We had expected both proportions to be significantly lower when we first set out. Our best guess as to why our expectations of attacker behavior in this case was different from reality is that, as mentioned in the research background, most research only focuses on one axis of attack at a time. So, perhaps, we erroneously assumed that attackers only <em>do</em> one axis of attack, and that multiple axes are rarer. That turns out to not be the case! Neat!</p>
 
 </div>
 </div>
@@ -18956,7 +18960,7 @@ IP command w/o control ratio:	 0.06527977044476327
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[46]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filteredCMDS</span><span class="p">[</span><span class="s2">&quot;command&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
@@ -18975,7 +18979,7 @@ IP command w/o control ratio:	 0.06527977044476327
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[46]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -19030,7 +19034,7 @@ Name: command, Length: 103, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[47]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">usable</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
@@ -19049,7 +19053,7 @@ Name: command, Length: 103, dtype: int64</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[47]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -19092,7 +19096,7 @@ Name: IP, Length: 966, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[48]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">usable</span><span class="p">[</span><span class="o">~</span><span class="n">usable</span><span class="p">[</span><span class="s1">&#39;containerType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;control-t_running&quot;</span><span class="p">,</span> <span class="s2">&quot;control-t-2_running&quot;</span><span class="p">,</span> <span class="s2">&quot;control-t-3_running&quot;</span><span class="p">])]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;containerType&quot;</span><span class="p">)[</span><span class="s2">&quot;containerType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
@@ -19111,7 +19115,7 @@ Name: IP, Length: 966, dtype: int64</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[48]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -19161,7 +19165,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[49]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">usable</span><span class="p">[</span><span class="s2">&quot;attackerUser&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -19180,7 +19184,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[49]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -19210,7 +19214,7 @@ Name: attackerUser, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[50]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">usable</span><span class="p">[</span><span class="s2">&quot;attackerPwd&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -19229,7 +19233,7 @@ Name: attackerUser, dtype: int64</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[50]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -19284,7 +19288,7 @@ Name: attackerPwd, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[51]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filteredCMDS_OK</span> <span class="o">=</span> <span class="n">filteredCMDS</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">filteredCMDS</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">)]</span>
@@ -19330,7 +19334,7 @@ Name: attackerPwd, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[53]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped_filtered1</span> <span class="o">=</span> <span class="n">filteredCMDS_OK</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;containerType&#39;</span><span class="p">,</span> <span class="s1">&#39;baseCommand&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
@@ -19367,7 +19371,7 @@ Name: attackerPwd, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[54]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
@@ -19421,7 +19425,7 @@ jp-needs-light-background
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Notice the log scale for the count of commands.</p>
-<p>Visually, we can see that the distributions of commands are very similar across the honeypots. Note that <code>control-t-2</code> and <code>control-t-3</code> have less data simply due to having been up less than the others. <code>swipe-t</code> and <code>pwd-t-2</code> had some interesting spikes in the non-common command vincinity, but overall, all containers looked very similar in the types of commands they were getting.</p>
+<p>Visually, we can see that the distributions of commands are very similar across the honeypots. Note that <code>control-t-2</code> and <code>control-t-3</code> have less data simply due to having been up less than the others. <code>swipe-t</code> and <code>pwd-t-2</code> had some interesting spikes in the non-common command vicinity, but overall, all containers looked very similar in the types of commands they were getting.</p>
 <p>Now, filtered!</p>
 
 </div>
@@ -19432,7 +19436,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[55]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
@@ -19485,7 +19489,7 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Woho! Look at that! The variety drops to nilch. Only the <code>pwd-t-2</code> and <code>swipe-t</code> containers managed to have any variety survive after the Great Filter. It's interesting that <code>swipe</code> managed to survive, as it wasn't one of the two highly attacked containers, and interesting that <code>blank-t</code> also didn't have any variety despite being one of the more attacked containers. It's possible that while <code>blank-t</code> and <code>pwd-t-2</code> were greatly spammed, <code>blank-t</code> was spammed more by one or so individuals.</p>
+<p>Woohoo! Look at that! The variety drops to nilch. Only the <code>pwd-t-2</code> and <code>swipe-t</code> containers managed to have any variety survive after the Great Filter. It's interesting that <code>swipe</code> managed to survive, as it wasn't one of the two highly attacked containers, and interesting that <code>blank-t</code> also didn't have any variety despite being one of the more attacked containers. It's possible that while <code>blank-t</code> and <code>pwd-t-2</code> were greatly spammed, <code>blank-t</code> was spammed more by one or so individuals.</p>
 <p>And now, grouped by website type!</p>
 
 </div>
@@ -19496,7 +19500,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[56]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
@@ -19624,7 +19628,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[58]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filteredCMDS</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;commandType&quot;</span><span class="p">)[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -19643,7 +19647,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[58]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -19670,7 +19674,7 @@ Name: IP, dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Tada! Based on the way we categorized it, we have a lot of low aggressiveness commands, then about 80,000 high invasiveness commands, and about 20,000 medium. Now, let's see if we can visualize how many commands per category there are per experiment.</p>
+<p>Tada! Based on the way we categorized it, we have a lot of low invasiveness commands, then about 80,000 high invasiveness commands, and about 20,000 medium. Now, let's see if we can visualize how many commands per category there are per experiment.</p>
 <p>To do so, we'll use the handy <code>pandas.crosstab</code> function, which takes in two categorical columns and counts how many times each combination appears.</p>
 
 </div>
@@ -19681,7 +19685,7 @@ Name: IP, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[86]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cross</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">filteredCMDS</span><span class="p">[</span><span class="s2">&quot;baseContainerType&quot;</span><span class="p">],</span> <span class="n">filteredCMDS</span><span class="p">[</span><span class="s2">&quot;commandType&quot;</span><span class="p">])</span>
@@ -19881,7 +19885,7 @@ Name: IP, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[87]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cross_pc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">filteredCMDS</span><span class="p">[</span><span class="s2">&quot;baseContainerType&quot;</span><span class="p">],</span> <span class="n">filteredCMDS</span><span class="p">[</span><span class="s2">&quot;commandType&quot;</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
@@ -20081,7 +20085,7 @@ Name: IP, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[88]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cross_pc</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -20100,7 +20104,7 @@ Name: IP, dtype: int64</pre>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[88]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -20161,7 +20165,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[89]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cross</span> <span class="o">=</span> <span class="n">cross</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;Unknown&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -20177,7 +20181,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[90]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cross</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -20196,7 +20200,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[90]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -20369,7 +20373,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[91]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
@@ -20390,7 +20394,7 @@ jp-needs-light-background
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[91]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -20439,7 +20443,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[92]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import chi-square test of independence so that we can run it on our data</span>
@@ -20456,7 +20460,7 @@ jp-needs-light-background
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[93]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">cross</span><span class="p">)</span>
@@ -20498,7 +20502,7 @@ degrees of freedom: 8
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Yup, p-value is literally 0, which means that if we assume that all five of these experiments draw from the same command population, there is a 0% chance of seeing results like the ones we're seeing here. So, some other htings are going on.</p>
+<p>Yup, p-value is literally 0, which means that if we assume that all five of these experiments draw from the same command population, there is a 0% chance of seeing results like the ones we're seeing here. So, some other things are going on.</p>
 <p>I'll now conduct the chi-square test between every pair of experiments and save those results in a table.</p>
 
 </div>
@@ -20509,7 +20513,7 @@ degrees of freedom: 8
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[94]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This is where I&#39;d put my results</span>
@@ -20530,7 +20534,7 @@ degrees of freedom: 8
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[94]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[&nbsp;]:</div>
 
 
 
@@ -20696,7 +20700,7 @@ degrees of freedom: 8
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[95]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># All of blank&#39;s first</span>
@@ -20754,7 +20758,7 @@ degrees of freedom: 8
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[96]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">option_context</span><span class="p">(</span><span class="s1">&#39;display.float_format&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{:.2e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">):</span>
@@ -20946,7 +20950,7 @@ degrees of freedom: 8
 <ol>
 <li>As expected, <code>it</code> and <code>swipe</code> are both Very different from all the other containers, to the point that the p value simply outputs as 0. The only experiments they're close to (with still a ridiculously small p-value) is each other.</li>
 <li>The rest of the experiments are also very different form one another, with p-values in the range of $e^{-30}$ (plus and minus some orders of magnitude).</li>
-<li>No pair of experiments have a p-value higher than 0.05, which means we can conclude that all experiments are statistically significnatly different from one another.</li>
+<li>No pair of experiments have a p-value higher than 0.05, which means we can conclude that all experiments are statistically significantly different from one another.</li>
 </ol>
 <p>So therefore, we can (technically) say that there is reason to suspect that web content/presence of a web server impacts the commands run on an SSH server.</p>
 
@@ -20962,8 +20966,8 @@ degrees of freedom: 8
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Why-is-it-so-low?">Why is it so low?<a class="anchor-link" href="#Why-is-it-so-low?">&#182;</a></h2><p>However, despite this being probably the best test that we can run, it's not actually a good test for our situation. Why? Independence.</p>
 <p>Chi-squared assumes that every measurement is independent from every other measurement. So, it assumes that 1 of the high-blank commands is independent from all other 24111 high-blank commands. And it assumes that the 1 command is independent from all the other commands represented in the table.</p>
-<p>However! This isn't the case at all! We know that one command is often preceded by many repetitions of the same command (given spam attacks). So, we as humans look at the distributions shown above, and know that given the nonindpendent nature of attacks, that most of the experiments are rather similar to one another, but the statistical test cannot know that.</p>
-<p>We did quite a bit of research and talking with fancy stat people, but unfortunately, none of them new a good way to solve this issue, espeically since command number is also an important thing to keep in mind. There's also an added layer that one attacker can have control over multiple IP addresses, and while we would be forced to say/assume that the attacks from those IP addresses are independent, in reality they'd be anything but.</p>
+<p>However! This isn't the case at all! We know that one command is often preceded by many repetitions of the same command (given spam attacks). So, we as humans look at the distributions shown above, and know that given the non-indpendent nature of attacks, that most of the experiments are rather similar to one another, but the statistical test cannot know that.</p>
+<p>We did quite a bit of research and talking with fancy stat people, but unfortunately, none of them new a good way to solve this issue, especially since command number is also an important thing to keep in mind. There's also an added layer that one attacker can have control over multiple IP addresses, and while we would be forced to say/assume that the attacks from those IP addresses are independent, in reality they'd be anything but.</p>
 <p>So, in conclusion, we did find that some honeypots seem to be different in the eyes of attackers/bots of attackers (specifically, the IOT management page and the information page) but we don't have enough information to continue into a deeper analysis.</p>
 
 </div>
