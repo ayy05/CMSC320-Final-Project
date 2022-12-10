@@ -14642,7 +14642,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <p>As part of the resources, we were given eleven of UMD's external IPs to use in our experiment. Three of them were attached to control honeypots (meaning they didn't have any websites on them), and the remaining eight were attached to web server honeypots. There were four website designs (two duplications each): a blank page with literally nothing on it, an informational page, a password change page, and an IOT control page (in our case, swipe card access into buildings). The ones with content were associated with a fictious Department of Internet Security at UMD (and were gracefully copied off of actual DIT websites).</p>
 <p>Our honeypots were up for about 6 weeks.</p>
 <p>By the time this notebook reaches your hands, dear grader/instructor/future student/someone else (why are you here?), the experiment will be shut down. However, during the time period of the experiment, you could have gone and taken a look at these websites yourself (and entered the honeypots if you so had desired) from your own browser. However, we didn't have a domain name (like google.com), so you would have had to actually type in the IP in number form. This also ensured that normal users wouldn't find our webpages and get confused by the content on them — only internet crawlers would hit upon them.</p>
-<p>If you're interested and want to learn more about the way that our project is set up, you can see our paper here: <strong>paper link maybe</strong></p>
+<p>If you're interested and want to learn more about the way that our project is set up, you can see our paper here: <a href="https://github.com/friendly-besties-incorporated/all-honeypot-code/blob/main/Final%20Paper.pdf">Github link</a>. All the scripts and files used in the project are also included in that Github repository!</p>
+<p>Here is also another resource if you'd like to learn more about honeypots: <a href="https://usa.kaspersky.com/resource-center/threats/what-is-a-honeypot">https://usa.kaspersky.com/resource-center/threats/what-is-a-honeypot</a>.</p>
 <p>And now, finally, with all this under our belt, it's time to actually look at the data!</p>
 
 </div>
@@ -14707,30 +14708,6 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This a function that goes through a dataframe with IP&#39;s in it and adds</span>
-<span class="c1"># a column with the estimated location based on IP</span>
-<span class="n">geo_dict</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">def</span> <span class="nf">addGeoCol</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">IPColName</span><span class="p">):</span>
-  <span class="n">uniqueIPs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">IPColName</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">uniqueIPs</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">geo_dict</span><span class="p">:</span>
-      <span class="n">geo_dict</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://geolocation-db.com/json/&quot;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="s2">&quot;&amp;position=true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;country_name&quot;</span><span class="p">)</span>
-  <span class="n">df</span><span class="p">[</span><span class="s1">&#39;geoLocation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">IPColName</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">geo_dict</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -14738,7 +14715,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Importing-and-Basic-Pre-Processing-of-Data">Importing and Basic Pre-Processing of Data<a class="anchor-link" href="#Importing-and-Basic-Pre-Processing-of-Data">&#182;</a></h1><p>Time to get our data in! The data will be <strong>in the github? I think?</strong> and we will import it in nicely. However, since we have some tricky manipulations coming up, we're not going to be just having everything in pandas. Let's create a database!</p>
+<h1 id="Importing-and-Basic-Pre-Processing-of-Data">Importing and Basic Pre-Processing of Data<a class="anchor-link" href="#Importing-and-Basic-Pre-Processing-of-Data">&#182;</a></h1><p>Time to get our data in! The data will is available in our <a href="https://github.com/ayy05/ayy05.github.io/blob/main/raw_data.zip">Github</a> and we will import it in nicely. However, since we have some tricky manipulations coming up, we're not going to be just having everything in pandas. Let's create a database!</p>
 
 </div>
 </div>
@@ -15361,8 +15338,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <li>User agent</li>
 <li>If it is a GET request or not</li>
 </ol>
-<p>The extra information is something we honestly don't understand, nor is it relevant for our project. If we had decided to analyze HTTP attacks, then that information would have been useful, but since that wasn't the point of the project, we collected that information and didn't analyze it. User agent is also something that we collected for the sake of collecting, but didn't analyze. Of course, the control containers are not represented in this dataset.</p>
+<p>The extra information is something we honestly don't understand, nor is it relevant for our project - it simply looked interesting so we collected it. If we had decided to analyze HTTP attacks, then that information would have been useful, but since that wasn't the point of the project, we collected that information and didn't analyze it. User agent is also something that we collected for the sake of collecting, but didn't analyze. Of course, the control containers are not represented in this dataset.</p>
 <p>Interesting note: not all of these requests are from attackers! Some of them are from legitimate web scraping efforts to map the internet, for example from Cisco. However, this is not an issue, as we'll see later.</p>
+<p>Additionally, here's a link to a helpful Mozilla documentation which goes over HTTP, which you may find useful to understanding the data collected: <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP">https://developer.mozilla.org/en-US/docs/Web/HTTP</a>.</p>
 <p>Let's get the data!</p>
 
 </div>
@@ -16630,7 +16608,7 @@ jp-needs-light-background
 <li><code>apacheTime</code> &lt;= <code>time</code></li>
 </ul>
 <p>And specifically, we care about having one row per valid session.</p>
-<p>Now, this can absolutely be done using python techniques. In fact, we did just that at first. However, the way we implemented it, it took ages to run, so instead, we won't reinvent the wheel and have SQL do it for us.</p>
+<p>Now, this can absolutely be done using python techniques. In fact, we did just that at first. However, the way we implemented it, it took ages to run, so instead, we won't reinvent the wheel and have SQL do it for us (if you'd like to learn more about writing SQL queries, this <a href="https://www.w3schools.com/sql/">W3Schools</a> website is quite informative).</p>
 <p>First we create the query that we need. We select all columns from the <code>mitm_out</code> and <code>apache_out</code> databases. Then, we do an inner join on the four conditions mentioned above (inner because we don't care about apache events or SSH sessions that don't match those criteria), then group by MITM columns so we don't have any duplicate sessions (which can easily happen if they sent multiple get requests).</p>
 
 </div>
@@ -19567,7 +19545,7 @@ jp-needs-light-background
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Statistics-and-Analysis">Statistics and Analysis<a class="anchor-link" href="#Statistics-and-Analysis">&#182;</a></h1><p>After a chat with Max, we determined that this project really doesn't have a sensible application in which to use any of the models that we used in class. This is because most of those models are used to predict something — and in this case, the only thing that could be predicted is the command the attacker will run. But since the distributions are rather similar across containers, the model will just predict the mode and that's it. Even if we tried to give it the IP or other information, it'll just take the mode of whatever info we give it.</p>
 <p>Instead, what's a lot more interesting, is doing some ✨statistics✨ on the data. The most interesting type of statistics that we can do is how the commands changed between containers in general. Specifically, say we categorize the commands into low, medium, and high aggressiveness categories. Are some containers getting more aggressive commands? Less aggressive commands?</p>
-<p>This is a question about comparing categorical data across multiple populations. This is prime time for a chi-square test of independence.</p>
+<p>This is a question about comparing categorical data across multiple populations. This is prime time for a chi-square test of independence (see <a href="https://www.jmp.com/en_au/statistics-knowledge-portal/chi-square-test/chi-square-test-of-independence.html">here</a> for more details about the statistical test).</p>
 <p>There's a couple steps to do before that, though.</p>
 
 </div>
